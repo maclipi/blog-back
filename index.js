@@ -17,6 +17,7 @@ const cors = corsMiddleware({
     exposeHeaders: ["Authorization"]
 });
 
+
 server.pre(cors.preflight);  
 server.use(cors.actual);  
 server.use (restify.plugins.bodyParser ({
@@ -28,20 +29,26 @@ sequelize.authenticate().then(() => {
     console.log("Success!");
     var Posts = sequelize.define('posts', {
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(500)
       },
       content: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15500)
+      },
+      glimpse:{
+        type: Sequelize.STRING(15500)
+      },
+      image:{
+        type: Sequelize.STRING(1500)
       }
     }, {
       freezeTableName: true
     });
   
     Posts.sync({force: true}).then(function () {
-      return Posts.create({
-        title: 'Getting Started with PostgreSQL and Sequelize',
-        content: 'Hello there'
-      });
+      // return Posts.create({
+      //   title: 'Getting Started with PostgreSQL and Sequelize',
+      //   content: 'Hello there'
+      // });
     });
   }).catch((err) => {
     console.log(err);
@@ -70,18 +77,27 @@ server.post('/insert',(req,res,next)=>{
         if (req.body.title && req.body.content)
         {
             var Posts = sequelize.define('posts', {
-                title: {
-                  type: Sequelize.STRING
-                },
-                content: {
-                  type: Sequelize.STRING
-                }
+              title: {
+                type: Sequelize.STRING(500)
+              },
+              content: {
+                type: Sequelize.STRING(55500)
+              },
+              glimpse:{
+                type: Sequelize.STRING(1500)
+              },
+              image:{
+                type: Sequelize.STRING(1500)
+              }
               }, {
                 freezeTableName: true
               });
                 var item =  Posts.build({
                   title: req.body.title,
-                  content: req.body.content
+                  content: req.body.content,
+                  glimpse:req.body.glimpse,
+                  image:req.body.image,
+
                 });
                 res.send (200, req.body.title);
                 item.save().complete(function (err) {
