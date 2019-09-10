@@ -126,6 +126,11 @@ server.get('/getPost',(req,res,next)=>{
                 },
                 content: {
                   type: Sequelize.STRING
+                },glimpse:{
+                  type: Sequelize.STRING
+                },
+                image:{
+                  type: Sequelize.STRING
                 }
               }, {
                 freezeTableName: true
